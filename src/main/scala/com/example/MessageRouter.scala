@@ -4,6 +4,18 @@ import akka.actor.Actor.Receive
 import akka.actor._
 
 object MessageRouterDriver extends CompletableApp(20) {
+  val processor1 = system.actorOf(Props[Processor], "processor1")
+  val processor2 = system.actorOf(Props[Processor], "processor2")
+
+  val alternatingRouter = system.actorOf(Props(classOf[AlternatingRouter], processor1, processor2), "alternatingRouter")
+
+  for (count <- 1 to 10) {
+    alternatingRouter ! "Message #" + count
+  }
+
+  awaitCompletion
+
+  println("MessageRouter: is completed.")
 }
 
 class AlternatingRouter(processor1: ActorRef, processor2: ActorRef) extends Actor {
