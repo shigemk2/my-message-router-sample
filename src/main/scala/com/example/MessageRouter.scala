@@ -2,5 +2,5 @@ package com.example
 
 import akka.actor._
 
-object MessageRouterDriver {
+object MessageRouterDriver extends CompletableApp(20) {
 }
