@@ -27,3 +27,11 @@ class AlternatingRouter(processor1: ActorRef, processor2: ActorRef) extends Acto
       MessageRouterDriver.completedStep()
   }
 }
+
+class Processor extends Actor {
+  override def receive: Receive = {
+    case message: Any =>
+      println(s"Processor: ${self.path.name} received $message")
+      MessageRouterDriver.completedStep()
+  }
+}
